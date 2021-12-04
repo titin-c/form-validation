@@ -19,13 +19,13 @@
 </form>
 	<script>
 document.getElementById("english_registration_form").onsubmit = function () {
-    var x = document.forms["english_registration_form"]["name"].value;
-    var y = document.forms["english_registration_form"]["email"].value;
-    var z = document.forms["english_registration_form"]["telephone"].value;
+    var valorName = document.forms["english_registration_form"]["name"].value;
+    var valorEmail = document.forms["english_registration_form"]["email"].value;
+    var valorPhone = document.forms["english_registration_form"]["telephone"].value;
 
     var submit = true;
 
-    if (x == null || x == "") {
+    if (valorName == null || valorName == "") {
         nameError = "Please enter your name";
         document.getElementById("name_error").innerHTML = nameError;
         submit = false;
@@ -34,17 +34,23 @@ document.getElementById("english_registration_form").onsubmit = function () {
     
 	
 	let emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
-	if (!emailRegex.exec(y) && (y != null || y != "")) {
+	if (!emailRegex.exec(valorEmail) && (valorEmail != null || valorEmail != "")) {
         emailError = "formato email incorrecto";
         document.getElementById("email_error").innerHTML = emailError;
         submit = false;
     }
-if (y == null || y == "") {
+if (valorEmail == null || valorEmail == "") {
         emailError = "Please enter your email";
         document.getElementById("email_error").innerHTML = emailError;
         submit = false;
     }
-    if (z == null || z == "") {
+	let telRegex = /(\+34|0034|34)?[ -]*(6|7|9)([0-9]){2}[ -]?(([0-9]){2}[ -]?([0-9]){2}[ -]?([0-9]){2}|([0-9]){3}[ -]?([0-9]){3})$/;
+	if ( !telRegex.exec(valorPhone)) {
+        telephoneError = "ese formato no es telefonico";
+        document.getElementById("telephone_error").innerHTML = telephoneError;
+        submit = false;
+    }
+    if (valorPhone == null || valorPhone == "") {
         telephoneError = "Please enter your telephone";
         document.getElementById("telephone_error").innerHTML = telephoneError;
         submit = false;
