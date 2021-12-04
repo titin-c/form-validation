@@ -8,20 +8,23 @@
 
 <body>
 <h1>Validar un formulario</h1>
-<form  name="english_registration_form" id="english_registration_form">
+<form  name="validar _formulario" id="validar _formulario">
     <input type="text" id="name" name="name" aria-describedby="name-format" placeholder="Name"> <span class="error"><p id="name_error"></p></span>
 
     <input type="text" id="email" name="email" placeholder="Email"> <span class="error"><p id="email_error"></p></span>
 
     <input type="tel" id="telephone" name="telephone" placeholder="Telephone"> <span class="error"><p id="telephone_error"></p></span>
+	
+	<input type="text" id="dni" name="dni" placeholder="DNI"> <span class="error"><p id="dni_error"></p></span>
 
-    <button class="register_button" type="submit" value="submit">Register Now</button>
+    <button class="register_button" type="submit" value="submit" id="submit">Register Now</button>
 </form>
 	<script>
-document.getElementById("english_registration_form").onsubmit = function () {
-    var valorName = document.forms["english_registration_form"]["name"].value;
-    var valorEmail = document.forms["english_registration_form"]["email"].value;
-    var valorPhone = document.forms["english_registration_form"]["telephone"].value;
+document.getElementById("validar _formulario").onsubmit = function () {
+    var valorName = document.forms["validar _formulario"]["name"].value;
+    var valorEmail = document.forms["validar _formulario"]["email"].value;
+    var valorPhone = document.forms["validar _formulario"]["telephone"].value;
+	var valorDni = document.forms["validar _formulario"]["dni"].value;
 
     var submit = true;
 
@@ -55,6 +58,34 @@ if (valorEmail == null || valorEmail == "") {
         document.getElementById("telephone_error").innerHTML = telephoneError;
         submit = false;
     }
+	var numero
+	var letr
+	var letra
+	var expresion_regular_dni = /^\d{5,8}[a-zA-Z]$/;
+	
+	if(expresion_regular_dni.test(valorDni) == true){
+		numero = valorDni.substr(0,valorDni.length-1);
+		letr = valorDni.substr(valorDni.length-1, 1).toUpperCase();
+		numero = numero % 23;
+		letra = 'TRWAGMYFPDXBNJZSQVHLCKET';
+		letra = letra.substring(numero, numero+1);
+		if (letra != letr) {
+           //alert('Dni erroneo, la letra del NIF no se corresponde');
+			dniError = "Dni erroneo, la letra del NIF no se corresponde";
+        document.getElementById("dni_error").innerHTML = dniError;
+        submit = false;
+		}
+	}else{
+		//alert('Dni erroneo, formato no válido');
+		dniError = "Dni erroneo, formato no válido";
+        document.getElementById("dni_error").innerHTML = dniError;
+        submit = false;
+	}
+	if (valorDni == null || valorDni == "") {
+        dniError = "Introduce tu DNI";
+        document.getElementById("dni_error").innerHTML = dniError;
+        submit = false;
+    }
 
     return submit;
 }
@@ -66,6 +97,7 @@ function removeWarning() {
 document.getElementById("name").onkeyup = removeWarning;
 document.getElementById("email").onkeyup = removeWarning;
 document.getElementById("telephone").onkeyup = removeWarning;
+document.getElementById("dni").onkeyup = removeWarning;
 </script>
 </body>
 </html>
