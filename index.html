@@ -3,12 +3,63 @@
 <head>
 <meta charset="utf-8">
 <title>Documento sin título</title>
-	<link href="css/css.css" rel="stylesheet" type="text/css">
+
 </head>
 
 <body>
-	<h1>Hola mundo</h1>
+<h1>Validar un formulario</h1>
+<form  name="english_registration_form" id="english_registration_form">
+    <input type="text" id="name" name="name" aria-describedby="name-format" placeholder="Name"> <span class="error"><p id="name_error"></p></span>
+
+    <input type="text" id="email" name="email" placeholder="Email"> <span class="error"><p id="email_error"></p></span>
+
+    <input type="tel" id="telephone" name="telephone" placeholder="Telephone"> <span class="error"><p id="telephone_error"></p></span>
+
+    <button class="register_button" type="submit" value="submit">Register Now</button>
+</form>
+	<script>
+document.getElementById("english_registration_form").onsubmit = function () {
+    var x = document.forms["english_registration_form"]["name"].value;
+    var y = document.forms["english_registration_form"]["email"].value;
+    var z = document.forms["english_registration_form"]["telephone"].value;
+
+    var submit = true;
+
+    if (x == null || x == "") {
+        nameError = "Please enter your name";
+        document.getElementById("name_error").innerHTML = nameError;
+        submit = false;
+    }
+
+    
 	
-	<p>he cambiado el texto porque no tenia sentido</p>
+	let emailRegex = /^[-\w.%+]{1,64}@(?:[A-Z0-9-]{1,63}\.){1,125}[A-Z]{2,63}$/i;
+	if (!emailRegex.exec(y) && (y != null || y != "")) {
+        emailError = "formato email incorrecto";
+        document.getElementById("email_error").innerHTML = emailError;
+        submit = false;
+    }
+if (y == null || y == "") {
+        emailError = "Please enter your email";
+        document.getElementById("email_error").innerHTML = emailError;
+        submit = false;
+    }
+    if (z == null || z == "") {
+        telephoneError = "Please enter your telephone";
+        document.getElementById("telephone_error").innerHTML = telephoneError;
+        submit = false;
+    }
+
+    return submit;
+}
+
+function removeWarning() {
+    document.getElementById(this.id + "_error").innerHTML = "";
+}
+
+document.getElementById("name").onkeyup = removeWarning;
+document.getElementById("email").onkeyup = removeWarning;
+document.getElementById("telephone").onkeyup = removeWarning;
+</script>
 </body>
 </html>
