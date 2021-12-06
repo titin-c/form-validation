@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+
+</head>
+<body>
+<form  name="validar_formulario" id="validar_formulario">
+  <input type="tel" id="telephone" name="telephone" placeholder="Telephone" onChange="this.value=limpiarPhone(this.value)">
+  <span class="error">
+  <p id="telephone_error"></p>
+  </span>
+  <button class="register_button" type="submit" value="submit" id="submit">Register Now</button>
+</form>
+	<script language="JavaScript">
+			
+function limpiarPhone(string) {
+    for (var i=0, limpiaPhone='', validos="+1234567890"; i<string.length; i++)
+       if (validos.indexOf(string.charAt(i)) != -1)
+          limpiaPhone += string.charAt(i)
+    return limpiaPhone;
+} 
+	function validacionPhone() {
+	var submit = true;
+    var valorPhone2 = document.forms["validar_formulario"]["telephone"].value;
+	
+	if (valorPhone2 == null || valorPhone2 == "") {
+        telephoneError = "Introduce un Teléfono";
+        document.getElementById("telephone_error").innerHTML = telephoneError;
+        submit = false;
+    }
+	if (valorPhone2.length > 12) {
+        telephoneError = "sobran numeros";
+        document.getElementById("telephone_error").innerHTML = telephoneError;
+        submit = false;
+    }
+    return submit;
+	
+}	
+
+	
+function removeWarning() {
+    document.getElementById(this.id + "_error").innerHTML = "";
+	}
+	document.getElementById("validar_formulario").onsubmit = validacionPhone;
+	document.getElementById("telephone").onkeyup = removeWarning;
+		
+		
+</script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+</head>
+
+<body>
+	<form  name="validar_formulario" id="validar_formulario">
+  <input type="text" id="dni" name="dni" placeholder="DNI" >
+  <span class="error">
+  <p id="dni_error"></p>
+  </span>
+  <button class="register_button" type="submit" value="submit" id="submit">Register Now</button>
+</form>
+	
+	<script>
+document.getElementById("validar_formulario").onsubmit = function () {
+	let valorDni = document.forms["validar_formulario"]["dni"].value;
+    let submit = true;
+    
+	let numeroDNI
+	let letraDNI
+	let letrasDNI
+	let expresion_regular_dni = /^\d{5,8}[a-zA-Z]$/;
+	
+	if(expresion_regular_dni.test(valorDni) == true){
+		numeroDNI = valorDni.substr(0,valorDni.length-1);
+		letraDNI = valorDni.substr(valorDni.length-1, 1).toUpperCase();
+		numeroDNI = numeroDNI % 23;
+		letrasDNI = 'TRWAGMYFPDXBNJZSQVHLCKET';
+		letrasDNI = letrasDNI.substring(numeroDNI, numeroDNI+1);
+		if (letrasDNI != letraDNI) {
+           //alert('Dni erroneo, la letra del NIF no se corresponde');
+			dniError = "Dni erroneo, la letra del NIF no se corresponde";
+        document.getElementById("dni_error").innerHTML = dniError;
+        submit = false;
+		}
+	}else{
+		//alert('Dni erroneo, formato no válido');
+		dniError = "Dni erroneo, formato no válido";
+        document.getElementById("dni_error").innerHTML = dniError;
+        submit = false;
+	}
+	if (valorDni == null || valorDni == "") {
+        dniError = "Introduce tu DNI";
+        document.getElementById("dni_error").innerHTML = dniError;
+        submit = false;
+    }
+
+    return submit;
+}
+
+function removeWarning() {
+    document.getElementById(this.id + "_error").innerHTML = "";
+}
+document.getElementById("dni").addEventListener("keyup", dniMayusculas);
+
+function dniMayusculas() {
+  var x = document.getElementById("dni");
+  x.value = x.value.toUpperCase();
+}
+document.getElementById("dni").onkeyup = removeWarning;
+</script>
+</body>
+</html>

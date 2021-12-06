@@ -1,0 +1,96 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Documento sin título</title>
+	
+</head>
+
+<body>
+	<form>
+      <input type="text" name="iban" id="iban" placeholder="introduce iban"/>
+      
+		<span class="error">
+  <p id="iban_error"></p>
+  </span>
+      <input type="button" onclick="fn_ValidateIBAN()" value="Calcular"/>
+    </form>
+	<script>
+	
+	function fn_ValidateIBAN(IVAN) {
+	IBAN = document.getElementById("iban").value;
+    //Se pasa a Mayusculas
+    IBAN = IBAN.toUpperCase();
+    //Se quita los blancos de principio y final.
+    IBAN = IBAN.trim();
+    IBAN = IBAN.replace(/\s/g, ""); //Y se quita los espacios en blanco dentro de la cadena
+
+    var letra1,letra2,num1,num2;
+    var isbanaux;
+    var numeroSustitucion;
+	
+
+    // Se coge las primeras dos letras y se pasan a números
+    letra1 = IBAN.substring(0, 1);
+    letra2 = IBAN.substring(1, 2);
+			
+    num1 = getnumIBAN(letra1);
+    num2 = getnumIBAN(letra2);
+    //Se sustituye las letras por números.
+    isbanaux = String(num1) + String(num2) + IBAN.substring(2);
+    // Se mueve los 6 primeros caracteres al final de la cadena.
+    isbanaux = isbanaux.substring(6) + isbanaux.substring(0,6);
+
+    //Se calcula el resto, llamando a la función modulo97, definida más abajo
+    resto = modulo97(isbanaux);
+	ibanPais = IBAN.substring(0, 2);
+		
+    //La longitud debe ser siempre de 24 caracteres
+    if (IBAN.length != 24 || !isNaN(ibanPais)) {
+		ibanTamaño = IBAN.length;
+		ibanError = "El formato de iban es incorrecto " + ibanTamaño + " " + IBAN;
+   document.getElementById("iban_error").innerHTML = ibanError;
+   submit = false; 
+        return false;
+    }
+    if (resto == 1){
+		// Coger pais 
+    
+		
+   
+		ibanError = "Iban correcto " + IBAN;
+   document.getElementById("iban_error").innerHTML = ibanError;
+	 document.getElementById("iban").value = IBAN;
+   submit = true; 
+    }else{
+		ibanError = "No coincide algun numero";
+   document.getElementById("iban_error").innerHTML = ibanError;
+   submit = false; 
+        return false;
+    }
+}
+
+function modulo97(iban) {
+    var parts = Math.ceil(iban.length/7);
+    var remainer = "";
+
+    for (var i = 1; i <= parts; i++) {
+        remainer = String(parseFloat(remainer+iban.substr((i-1)*7, 7))%97);
+    }
+
+    return remainer;
+}
+
+function getnumIBAN(letra) {
+    ls_letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    return ls_letras.search(letra) + 10;
+}
+	function removeWarning() {
+    document.getElementById('iban_error').innerHTML = "";
+	}
+	
+		document.getElementById('iban').onkeyup = removeWarning;
+	
+	</script>
+</body>
+</html>
